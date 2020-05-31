@@ -2,7 +2,6 @@ const express = require('express');
 const socketIO = require('socket.io');
 const customId = require("custom-id");
 
-
 // Initializations
 const app = express();
 
