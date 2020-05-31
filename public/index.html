@@ -44,34 +44,36 @@
     <div class="game-scene show-scene">
         <p class="game-state">FINISHED</p>
         <p class="players"><span class="player-one">brad</span> vs <span class="player-two">chad</span></p>
-        <div class="overlay-game-pin">
-            <div class="game-pin-msg">
-                <p class="msg-pin">This is your PIN</p>
-                <p class="pin"></p>
+        <div class="overlay-game-scene overlay-pin">
+            <div class="pin-container">
+                <p>This is your PIN</p>
+                <p class="pin-text">gh87hj6y</p>
             </div>
         </div>
-        <div class="overlay-game-msg">
-            <p class="game-msg"></p>
-        </div>
-        <div class="overlay-game-end">
-            <div class="game-end-msg">
-                <p class="winner"></p>
-                <a href="#" class="restart">Play again</a>
+        <div class="overlay-game-scene game-msg">
+            <div class="game-msg-container">
+                <p>waiting for Brad's Movement</p>
             </div>
         </div>
-        <div class="container">
-            <a class="square" data-position='0' href="#"></a>
-            <a class="square" data-position='1' href="#"></a>
-            <a class="square" data-position='2' href="#"></a>
-            <a class="square" data-position='3' href="#"></a>
-            <a class="square" data-position='4' href="#"></a>
-            <a class="square" data-position='5' href="#"></a>
-            <a class="square" data-position='6' href="#"></a>
-            <a class="square" data-position='7' href="#"></a>
-            <a class="square" data-position='8' href="#"></a>
+        <div class="overlay-game-scene game-end">
+            <div class="game-end-container">
+                <p>Brad's won</p>
+                <a href="#" class="btn restart">Play again</a>
+            </div>
+        </div>
+        <div class="game-container">
+            <a class="cell" data-position='0' href="#"></a>
+            <a class="cell" data-position='1' href="#"></a>
+            <a class="cell" data-position='2' href="#"></a>
+            <a class="cell" data-position='3' href="#"></a>
+            <a class="cell" data-position='4' href="#"></a>
+            <a class="cell" data-position='5' href="#"></a>
+            <a class="cell" data-position='6' href="#"></a>
+            <a class="cell" data-position='7' href="#"></a>
+            <a class="cell" data-position='8' href="#"></a>
         </div>
         <p class="player-symbol">Your symbol is: <span class="symbol">O</span></p>
-        <a href="#" class="exit">Exit</a>
+        <a href="#" class="btn exit">Exit</a>
     </div>
 </body>
 </html>
