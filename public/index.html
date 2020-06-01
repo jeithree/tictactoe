@@ -9,11 +9,12 @@
     <link rel="stylesheet" href="css/style.css">
 
     <script defer src="socket.io/socket.io.js"></script>
-    <script defer src="js/ui.js"></script>
+    <script defer src="js/common.js"></script>
+    <!-- <script defer src="js/ui.js"></script> -->
     <script defer src="js/app.js"></script>
 </head>
 <body>
-    <div class="start-scene">
+    <div class="start-scene show">
         <div class="overlay-start-scene overlay-create">
             <div class="create-container">
                 <p>Enter a name</p>
@@ -41,21 +42,27 @@
             <a href="#" class="btn join">Join</a>
         </div>
     </div>
-    <div class="game-scene show-scene">
-        <p class="game-state">FINISHED</p>
-        <p class="players"><span class="player-one">brad</span> vs <span class="player-two">chad</span></p>
+    <div class="game-scene">
+        <p class="game-state"></p>
+        <p class="players"><span class="player-one">...</span> vs <span class="player-two">...</span></p>
         <div class="overlay-game-scene overlay-pin">
             <div class="pin-container">
                 <p>This is your PIN</p>
-                <p class="pin-text">gh87hj6y</p>
+                <p class="pin-text"></p>
             </div>
         </div>
-        <div class="overlay-game-scene game-msg">
+        <div class="overlay-game-scene overlay-game-msg">
             <div class="game-msg-container">
-                <p>waiting for Brad's Movement</p>
+                <p></p>
             </div>
         </div>
-        <div class="overlay-game-scene game-end">
+        <div class="overlay-game-scene overlay-player-joined">
+            <div class="player-joined-container">
+                <p></p>
+                <a href="#" class="btn accept">Accept</a>
+            </div>
+        </div>
+        <div class="overlay-game-scene overlay-game-end">
             <div class="game-end-container">
                 <p>Brad's won</p>
                 <a href="#" class="btn restart">Play again</a>
@@ -72,7 +79,7 @@
             <a class="cell" data-position='7' href="#"></a>
             <a class="cell" data-position='8' href="#"></a>
         </div>
-        <p class="player-symbol">Your symbol is: <span class="symbol">O</span></p>
+        <p class="player-symbol">Your symbol is: <span class="symbol"></span></p>
         <a href="#" class="btn exit">Exit</a>
     </div>
 </body>

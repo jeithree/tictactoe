@@ -7,7 +7,7 @@ const app = express();
 
 // Settings
 app.enable('trust proxy');
-app.set('port', 4000);
+app.set('port', 5000);
 
 // Middlewares
 app.use(express.json());
@@ -30,31 +30,25 @@ const io = socketIO(server);
 io.on('connection', (socket) => {
     console.log('new connection', socket.id);
 
-    socket.on('generate:code', (data) => {
-        io.sockets.emit(`pinfor:${data.user}`, {pin: customId({})});
+    socket.on('generate:pin', (data) => {
+        socket.emit(`${data.player}:pin`, {pin: customId({})});
     });
 
-    socket.on('data:from:p2', (data) => {
-        socket.broadcast.emit('data:to:p1', {});
-        socket.broadcast.emit(`p2:username:${data.pin}`, {user: data.user});
-        console.log(data.pin);
+    socket.on('join:game', (data) => {
+        socket.join(data.pin);
+        //console.log(data);
+        //console.log(socket.rooms)
     });
 
-    socket.on('data:from:p1', (data) => {
-        socket.broadcast.emit('data:to:p2', {});
-        socket.broadcast.emit(`p1:username:${data.pin}`, {user: data.user});
-        console.log(data.pin);
+    socket.on('join:request', (data) => {
+        socket.to(data.pin).broadcast.emit('join:request', {pin: data.pin, player: data.player, symbol: data.symbol});
     });
 
-    socket.on('player:movement', (data) => {
-        socket.broadcast.emit('game:movement', {});
-        socket.broadcast.emit(`player:movement:${data.pin}`, {symbol: data.symbol, position: data.position});
-        console.log(data.symbol, data.position);
+    socket.on('join:request:accepted', (data) => {
+        socket.to(data.pin).broadcast.emit('join:request:accepted', {pin: data.pin, player: data.player, symbol: data.symbol});
     });
 
-    socket.on('player:play:again', (data) => {
-        socket.broadcast.emit('paly:again', {});
-        socket.broadcast.emit(`player:movement:${data.pin}`, {symbol: data.symbol, position: data.position});
-        console.log(data.symbol, data.position);
+    socket.on('disconnect', () => {
+        console.log(socket.id, 'disconnected');
     });
 });

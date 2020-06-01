@@ -105,6 +105,7 @@ btnFormJoin.addEventListener('click', (evt) => {
     startScene.classList.remove('scene-show');
     gameScene.classList.add('scene-show');
     document.querySelector('.player-two').innerText = playerTwo;
+    
     socket.emit('data:from:p2', {pin: pin, user: playerTwo});
     overlayGameMsg.classList.add('overlay-show');
     sessionStorage.setItem('pin', pin);

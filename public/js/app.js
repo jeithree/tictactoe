@@ -1,100 +1,108 @@
-let winningCombinations = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-];
+btnCreate.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    showOverlay(overlayCreate);
+});
 
-let oppositePlayer;
-let activePlayer;
-let playerSymbol
+btnJoin.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    showOverlay(overlayJoin);
+});
 
-squares.forEach((item) => {
-    item.addEventListener('click', (evt) => {
-        evt.preventDefault();
+btnCCancel.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    hideOverlay(overlayCreate);
+});
 
-        if (item.classList.contains('x') || item.classList.contains('circle')) { return; }
+btnJCancel.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    hideOverlay(overlayJoin);
+});
 
-        playerSymbol = document.querySelector('.symbol').innerText;
+btnCreateConfirm.addEventListener('click', (evt) => {
+    evt.preventDefault();
 
-        item.innerText = playerSymbol;
+    setPlayer(createUsernameInput.value);
+    let player = getPlayer();
 
-        let squareClass = (playerSymbol === 'X') ? 'x' : 'circle';
-        item.classList.add(squareClass);
+    if (!validateInput(player)) { return; }
 
-        oppositePlayer = (playerSymbol === 'X') ? playerTwo : playerOne;
-        activePlayer = (playerSymbol === 'X') ? playerOne : playerTwo;
+    hideOverlay(overlayCreate);
+    hideOverlay(startScene);
+    showOverlay(gameScene);
+    setGameStateLabel('WAITING');
+    setPlayerLabel('one', player);
 
-        overlayGameMsg.classList.add('overlay-show');
+    socketEmit('generate:pin', {player: player});
+    socketOn(`${player}:pin`, (data) => {
+        setPin(data.pin);
+        let pin = getPin();
+        setPinLabel(pin);
 
-        socket.emit(`player:movement`, {
-            pin: pin,
-            symbol: playerSymbol,
-            position: item.dataset.position
-        });
+        showOverlay(overlayPin);
+        setPlayerSymbol('X');
+        let symbol = getPlayerSymbol();
+        setPlayerSymbolLabel(symbol);
 
-        document.querySelector('.game-state').innerText = 'WAITING';
-        document.querySelector('.game-msg').innerText = `waiting for ${oppositePlayer}'s movement ..`;
-
-        if (checkWin(squareClass)) {
-            console.log(`${activePlayer} won`);
-            document.querySelector('.game-state').innerText = 'FINISHED';
-            overlayGameMsg.classList.remove('overlay-show');
-            overlayGameEnded.classList.add('overlay-show');
-            winnerMsg.innerText = `${activePlayer} won`;
-        } else if (checkDraw()) {
-            console.log('Its a draw');
-            document.querySelector('.game-state').innerText = 'FINISHED';
-            overlayGameMsg.classList.remove('overlay-show');
-            overlayGameEnded.classList.add('overlay-show');
-            winnerMsg.innerText = `It's a draw`;
-        }
+        socketEmit('join:game', {pin: pin});
+        console.log(pin);
     });
 });
 
-function checkWin(currentClass) {
-    return winningCombinations.some((combination) => {
-        let result = combination.every((value) => { return squares[value].classList.contains(currentClass); });
-        if (result) {
-            combination.forEach((value) => { squares[value].classList.add('green'); })
-            return result;
-        }
-        return result;
-    });
-}
+btnJoinConfirm.addEventListener('click', (evt) => {
+    evt.preventDefault();
 
-function checkDraw() {
-    return [...squares].every((square) => {
-        return square.classList.contains('x') || square.classList.contains('circle');
-    });
-}
+    setPlayer(joinUsernameInput.value);
+    let player = getPlayer();
 
-socket.on('game:movement', () => {
-    socket.on(`player:movement:${pin}`, (data) => {
-        document.querySelector('.game-state').innerText = 'YOUR TURN';
-        overlayGameMsg.classList.remove('overlay-show');
-        let squareToDrawOn = document.querySelectorAll(`[data-position="${data.position}"]`);
-        let squareClass = (data.symbol === 'X') ? 'x' : 'circle';
-        squareToDrawOn[0].classList.add(squareClass);
-        squareToDrawOn[0].innerText = data.symbol;
+    setPin(joinPinInput.value);
+    let pin = getPin();
 
-        if (checkWin(squareClass)) {
-            console.log(`${oppositePlayer} won`);
-            document.querySelector('.game-state').innerText = 'FINISHED';
-            overlayGameMsg.classList.remove('overlay-show');
-            overlayGameEnded.classList.add('overlay-show');
-            winnerMsg.innerText = `${oppositePlayer} won`;
-        } else if (checkDraw()) {
-            console.log('Its a draw');
-            document.querySelector('.game-state').innerText = 'FINISHED';
-            overlayGameMsg.classList.remove('overlay-show');
-            overlayGameEnded.classList.add('overlay-show');
-            winnerMsg.innerText = `It's a draw`;
-        }
-        console.log(data.symbol, data.position);
-    });
+    if (!validateInput(player)) { return; }
+    if (!validateInput(pin)) { return; }
+
+    hideOverlay(overlayJoin);
+    hideOverlay(startScene);
+    showOverlay(gameScene);
+    setGameStateLabel('WAITING');
+    setPlayerLabel('two', player);
+
+    showOverlay(overlayGameMsg);
+    labelGameMsg.innerText = 'Joining Game ...';
+
+    setPlayerSymbol('O');
+    let symbol = getPlayerSymbol();
+    setPlayerSymbolLabel(symbol);
+
+    socketEmit('join:game', {pin: pin});
+    socketEmit('join:request', {pin: pin, player: player, symbol: symbol});
+});
+
+btnAccept.addEventListener('click', (evt) => {
+    evt.preventDefault();
+
+    hideOverlay(overlayPlayerJoined);
+    setGameStateLabel('YOUR TURN');
+    socketEmit('join:request:accepted', {pin: getPin(), player: getPlayer(), symbol: getPlayerSymbol()});
+});
+
+btnExit.addEventListener('click', (evt) => {
+    evt.preventDefault();
+
+    hideOverlay(overlayGameEnd);
+    hideOverlay(gameScene);
+    showOverlay(startScene);
+});
+
+socket.on('join:request', (data) => {
+    setPlayerLabel('two', data.player);
+    hideOverlay(overlayPin);
+    showOverlay(overlayPlayerJoined);
+    labelPlayerJoined.innerText = `${data.player} has joined`;
+    console.log(data);
+});
+
+socket.on('join:request:accepted', (data) => {
+    setPlayerLabel('one', data.player);
+    labelGameMsg.innerText = `waiting for ${data.player}'s movement ..`;
+    console.log(data);
 });

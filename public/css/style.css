@@ -86,10 +86,10 @@ body {
 	margin: 0 5px;
 	border-radius: 4px;
 }
-.create, .restart { background: #27ae60; }
+.create, .restart, .accept { background: #27ae60; }
 .join {	background: #3498db; }
 .cancel, .exit { background: #e74c3c; }
-.create:hover, .create:active, .restart:hover, .restart:active {	background: #155e34; }
+.create:hover, .create:active, .restart:hover, .restart:active, .accept:hover, .accept:active { background: #155e34; }
 .join:hover, .join:active {	background: #1d6ea4; }
 .cancel:hover, .cancel:active, .exit:hover, .exit:active {	background: #ac2315; }
 .start-scene {
@@ -176,6 +176,7 @@ body {
 .players {
 	margin: 0 auto 20px auto;
 }
+.players span {	text-transform: capitalize; }
 .player-symbol {
 	margin: 0 auto 20px auto;
 }
@@ -197,7 +198,7 @@ body {
 	display: none;
 	visibility: hidden;
 }
-.game-end-container, .pin-container, .game-msg-container {
+.game-end-container, .pin-container, .game-msg-container, .player-joined-container {
 	max-width: 200px;
 	width: 100%;
 	background: #F6F6F6;
@@ -216,6 +217,12 @@ body {
 .game-msg-container {
 	margin-top: 105px;
 	padding: 20px 5px;
+}
+.player-joined-container {
+	padding: 15px;
+}
+.player-joined-container .accept{
+	margin-top: 10px;
 }
 .game-end-container p {
 	font-size: 1.5rem;
@@ -247,11 +254,7 @@ body {
 .green {
     background: #C0DFE4;
 }
-.show-overlay {
-	display: inherit;
-	visibility: visible;
-}
-.show-scene {
+.show {
 	display: inherit;
 	visibility: visible;
 }
