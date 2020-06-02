@@ -101,10 +101,10 @@ io.on('connection', (socket) => {
     socket.on('disconnect', async () => {
         console.log(socket.id, 'disconnected');
         const connection = await Connection.findOne({ connection: socket.id });
-        socket.to(connection.room).broadcast.emit('player:disconnected', {});
 
         if (!connection) { return }
 
+        socket.to(connection.room).broadcast.emit('player:disconnected', {});
         await Connection.deleteOne({ connection: socket.id });
         console.log(connection.room);
     });
