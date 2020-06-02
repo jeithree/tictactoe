@@ -2,6 +2,10 @@ const express = require('express');
 const socketIO = require('socket.io');
 const customId = require("custom-id");
 
+// Database
+require('./database');
+const Connection = require('./models/Connection');
+
 // Initializations
 const app = express();
 
@@ -34,8 +38,13 @@ io.on('connection', (socket) => {
         socket.emit(`${data.player}:pin`, {pin: customId({})});
     });
 
-    socket.on('join:game', (data) => {
+    socket.on('join:game', async (data) => {
         socket.join(data.pin);
+        const connection = new Connection({
+            connection: socket.id,
+            room: data.pin,
+        });
+        await connection.save();
         //console.log(data);
         //console.log(socket.rooms)
     });
@@ -89,9 +98,14 @@ io.on('connection', (socket) => {
         });
     });
 
-    socket.on('disconnect', () => {
+    socket.on('disconnect', async () => {
         console.log(socket.id, 'disconnected');
-        // gotta emit this only to the user room (needs to be fixed)
-        socket.broadcast.emit('player:disconnected', {});
+        const connection = await Connection.findOne({ connection: socket.id });
+        socket.to(connection.room).broadcast.emit('player:disconnected', {});
+
+        if (!connection) { return }
+
+        await Connection.deleteOne({ connection: socket.id });
+        console.log(connection.room);
     });
 });
