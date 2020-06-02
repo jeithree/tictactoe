@@ -38,7 +38,7 @@ const btnPlayAgainAccept = document.querySelector('.play-again-container .accept
 const btnPlayAgainDecline = document.querySelector('.play-again-container .decline');
 
 const overlayGameEnd = document.querySelector('.overlay-game-end');
-const labelGameEnd = document.querySelector('.game-end-container span');
+const labelGameEnd = document.querySelector('.game-end-container p');
 const btnRestart = document.querySelector('.game-end-container .restart');
 
 const gameContainer = document.querySelector('.game-container');

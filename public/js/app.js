@@ -254,7 +254,7 @@ socketOn('player:movement', (data) => {
 socketOn('play:again:request', (data) => {
     hideOverlay(overlayGameEnd);
     showOverlay(overlayPlayAgain);
-    labelPlayAgain.innerText = `${data.player} want's to play again`;
+    labelPlayAgain.innerText = `${data.player} wants to play again`;
 });
 
 socketOn('play:again:accepted', (data) => {
