@@ -132,7 +132,7 @@ cells.forEach((cell) => {
             setGameStateLabel('FINISHED');
             hideOverlay(overlayGameMsg);
             showOverlay(overlayGameEnd);
-            labelGameEnd.innerText = activePlayer;
+            labelGameEnd.innerText = `${activePlayer} won`;
         } else if (checkDraw()) {
             setGameStateLabel('FINISHED');
             hideOverlay(overlayGameMsg);
@@ -241,7 +241,7 @@ socketOn('player:movement', (data) => {
         setGameStateLabel('FINISHED');
         hideOverlay(overlayGameMsg);
         showOverlay(overlayGameEnd);
-        labelGameEnd.innerText = data.player;
+        labelGameEnd.innerText = `${data.player} won`;
     } else if (checkDraw()) {
         setGameStateLabel('FINISHED');
         hideOverlay(overlayGameMsg);
