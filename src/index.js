@@ -65,6 +65,30 @@ io.on('connection', (socket) => {
         });
     });
 
+    socket.on('play:again:request', (data) => {
+        socket.to(data.pin).broadcast.emit('play:again:request', {
+            pin: data.pin,
+            player: data.player,
+            symbol: data.symbol,
+        });
+    });
+
+    socket.on('play:again:accepted', (data) => {
+        socket.to(data.pin).broadcast.emit('play:again:accepted', {
+            pin: data.pin,
+            player: data.player,
+            symbol: data.symbol,
+        });
+    });
+
+    socket.on('play:again:declined', (data) => {
+        socket.to(data.pin).broadcast.emit('play:again:declined', {
+            pin: data.pin,
+            player: data.player,
+            symbol: data.symbol,
+        });
+    });
+
     socket.on('disconnect', () => {
         console.log(socket.id, 'disconnected');
     });

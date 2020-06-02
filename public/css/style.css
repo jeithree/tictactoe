@@ -88,10 +88,18 @@ body {
 }
 .create, .restart, .accept { background: #27ae60; }
 .join {	background: #3498db; }
-.cancel, .exit { background: #e74c3c; }
-.create:hover, .create:active, .restart:hover, .restart:active, .accept:hover, .accept:active { background: #155e34; }
+.cancel, .exit, .decline { background: #e74c3c; }
+.create:hover, .create:active,
+.restart:hover, .restart:active,
+.accept:hover, .accept:active {
+	background: #155e34;
+}
 .join:hover, .join:active {	background: #1d6ea4; }
-.cancel:hover, .cancel:active, .exit:hover, .exit:active {	background: #ac2315; }
+.cancel:hover, .cancel:active,
+.exit:hover, .exit:active,
+.decline:hover, .decline:active {
+	background: #ac2315;
+}
 .start-scene {
 	max-width: 300px;
 	width: 100%;
@@ -198,7 +206,7 @@ body {
 	display: none;
 	visibility: hidden;
 }
-.game-end-container, .pin-container, .game-msg-container, .player-joined-container {
+.game-end-container, .pin-container, .game-msg-container, .player-joined-container, .play-again-container {
 	max-width: 200px;
 	width: 100%;
 	background: #F6F6F6;
@@ -223,6 +231,17 @@ body {
 }
 .player-joined-container .accept{
 	margin-top: 10px;
+}
+.play-again-container {
+	padding: 20px 10px;
+    max-width: 240px;
+}
+.play-again-container p {
+	padding: 0 0 10px 0;
+    max-width: 240px;
+}
+.play-again-container .accept {
+	display: inline;
 }
 .game-end-container p {
 	font-size: 1.5rem;

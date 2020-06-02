@@ -32,6 +32,11 @@ const overlayPlayerJoined = document.querySelector('.overlay-player-joined');
 const labelPlayerJoined = document.querySelector('.player-joined-container p');
 const btnAccept = document.querySelector('.player-joined-container .accept');
 
+const overlayPlayAgain = document.querySelector('.overlay-play-again');
+const labelPlayAgain = document.querySelector('.play-again-container p');
+const btnPlayAgainAccept = document.querySelector('.play-again-container .accept');
+const btnPlayAgainDecline = document.querySelector('.play-again-container .decline');
+
 const overlayGameEnd = document.querySelector('.overlay-game-end');
 const labelGameEnd = document.querySelector('.game-end-container span');
 const btnRestart = document.querySelector('.game-end-container .restart');

@@ -146,12 +146,7 @@ btnRestart.addEventListener('click', (evt) => {
     evt.preventDefault();
     hideOverlay(overlayGameEnd);
 
-    cells.forEach((cell) => {
-        cell.classList.remove('x', 'circle', 'green');
-        cell.innerText = '';
-    });
-
-    socket.emit('play:again', {
+    socket.emit('play:again:request', {
         pin: getPin(),
         player: getPlayer(),
         symbol: getPlayerSymbol(),
@@ -161,6 +156,60 @@ btnRestart.addEventListener('click', (evt) => {
 
     showOverlay(overlayGameMsg);
     labelGameMsg.innerText = `waiting for ${oppositePlayer} to accept the play again request ..`;
+});
+
+btnPlayAgainAccept.addEventListener('click', (evt) => {
+    evt.preventDefault();
+
+    let playerSymbol = getPlayerSymbol();
+    let playerTurn = getPlayerTurn();
+    let oppositePlayer = (playerSymbol === 'X') ? getPlayerLabel('two') : getPlayerLabel('one');
+
+    let playerNewSymbol = (playerSymbol === 'X') ? 'O' : 'X';
+    let playerNewTurn = (playerTurn === 'first') ? 'second' : 'first';
+    let PlayerNewNumber = (playerNewSymbol === 'X') ? 'one' : 'two';
+    let PlayerOldNumber = (playerSymbol === 'X') ? 'one' : 'two';
+
+    setPlayerSymbol(playerNewSymbol);
+    setPlayerTurn(playerNewTurn);
+    setPlayerLabel(PlayerNewNumber, getPlayer());
+    setPlayerLabel(PlayerOldNumber, oppositePlayer);
+
+    socket.emit('play:again:accepted', {
+        pin: getPin(),
+        player: getPlayer(),
+        symbol: getPlayerSymbol(),
+    });
+
+    cells.forEach((cell) => {
+        cell.classList.remove('x', 'circle', 'green');
+        cell.innerText = '';
+    });
+
+    setPlayerSymbolLabel(playerNewSymbol);
+    hideOverlay(overlayPlayAgain);
+
+    if (playerNewTurn === 'second') {
+        setGameStateLabel('WAITING');
+        showOverlay(overlayGameMsg);
+        labelGameMsg.innerText = `waiting for ${oppositePlayer}'s movement ..`;
+    } else if (playerNewTurn === 'first') {
+        setGameStateLabel('YOUR TURN');
+    }
+});
+
+btnPlayAgainDecline.addEventListener('click', (evt) => {
+    evt.preventDefault();
+
+    socket.emit('play:again:declined', {
+        pin: getPin(),
+        player: getPlayer(),
+        symbol: getPlayerSymbol(),
+    });
+
+    hideOverlay(overlayPlayAgain);
+    showOverlay(overlayGameMsg);
+    labelGameMsg.innerText = `You declined the play again request`;
 });
 
 socket.on('join:request', (data) => {
@@ -200,4 +249,45 @@ socket.on('player:movement', (data) => {
         labelGameEnd.innerText = `It's a draw`;
     }
     console.log(data.symbol, data.position);
+});
+
+socket.on('play:again:request', (data) => {
+    hideOverlay(overlayGameEnd);
+    showOverlay(overlayPlayAgain);
+    labelPlayAgain.innerText = `${data.player} want's to play again`;
+});
+
+socket.on('play:again:accepted', (data) => {
+    let playerSymbol = getPlayerSymbol();
+    let playerTurn = getPlayerTurn();
+
+    let playerNewSymbol = (playerSymbol === 'X') ? 'O' : 'X';
+    let playerNewTurn = (playerTurn === 'first') ? 'second' : 'first';
+    let PlayerNewNumber = (playerNewSymbol === 'X') ? 'one' : 'two';
+    let PlayerOldNumber = (playerSymbol === 'X') ? 'one' : 'two';
+
+    setPlayerSymbol(playerNewSymbol);
+    setPlayerTurn(playerNewTurn);
+    setPlayerLabel(PlayerNewNumber, getPlayer());
+    setPlayerLabel(PlayerOldNumber, data.player);
+
+    cells.forEach((cell) => {
+        cell.classList.remove('x', 'circle', 'green');
+        cell.innerText = '';
+    });
+
+    setPlayerSymbolLabel(playerNewSymbol);
+    hideOverlay(overlayGameMsg);
+
+    if (playerNewTurn === 'second') {
+        setGameStateLabel('WAITING');
+        showOverlay(overlayGameMsg);
+        labelGameMsg.innerText = `waiting for ${data.player}'s movement ..`;
+    } else if (playerNewTurn === 'first') {
+        setGameStateLabel('YOUR TURN');
+    }
+});
+
+socket.on('play:again:declined', (data) => {
+    labelGameMsg.innerText = `${data.player} declined your play again request`;
 });
