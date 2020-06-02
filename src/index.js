@@ -91,5 +91,7 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         console.log(socket.id, 'disconnected');
+        // gotta emit this only to the user room (needs to be fixed)
+        socket.broadcast.emit('player:disconnected', {});
     });
 });

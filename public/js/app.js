@@ -117,7 +117,7 @@ cells.forEach((cell) => {
         cell.innerText = playerSymbol;
         cell.classList.add(currentClass);
 
-        socket.emit('player:movement', {
+        socketEmit('player:movement', {
             pin: getPin(),
             player: getPlayer(),
             symbol: getPlayerSymbol(),
@@ -146,7 +146,7 @@ btnRestart.addEventListener('click', (evt) => {
     evt.preventDefault();
     hideOverlay(overlayGameEnd);
 
-    socket.emit('play:again:request', {
+    socketEmit('play:again:request', {
         pin: getPin(),
         player: getPlayer(),
         symbol: getPlayerSymbol(),
@@ -175,7 +175,7 @@ btnPlayAgainAccept.addEventListener('click', (evt) => {
     setPlayerLabel(PlayerNewNumber, getPlayer());
     setPlayerLabel(PlayerOldNumber, oppositePlayer);
 
-    socket.emit('play:again:accepted', {
+    socketEmit('play:again:accepted', {
         pin: getPin(),
         player: getPlayer(),
         symbol: getPlayerSymbol(),
@@ -201,7 +201,7 @@ btnPlayAgainAccept.addEventListener('click', (evt) => {
 btnPlayAgainDecline.addEventListener('click', (evt) => {
     evt.preventDefault();
 
-    socket.emit('play:again:declined', {
+    socketEmit('play:again:declined', {
         pin: getPin(),
         player: getPlayer(),
         symbol: getPlayerSymbol(),
@@ -212,7 +212,7 @@ btnPlayAgainDecline.addEventListener('click', (evt) => {
     labelGameMsg.innerText = `You declined the play again request`;
 });
 
-socket.on('join:request', (data) => {
+socketOn('join:request', (data) => {
     setPlayerLabel('two', data.player);
     hideOverlay(overlayPin);
     showOverlay(overlayPlayerJoined);
@@ -220,14 +220,14 @@ socket.on('join:request', (data) => {
     //console.log(data);
 });
 
-socket.on('join:request:accepted', (data) => {
+socketOn('join:request:accepted', (data) => {
     setGameStateLabel('YOU JOINED');
     setPlayerLabel('one', data.player);
     labelGameMsg.innerText = `waiting for ${data.player}'s movement ..`;
     //console.log(data);
 });
 
-socket.on('player:movement', (data) => {
+socketOn('player:movement', (data) => {
     setGameStateLabel('YOUR TURN');
     hideOverlay(overlayGameMsg);
 
@@ -251,13 +251,13 @@ socket.on('player:movement', (data) => {
     console.log(data.symbol, data.position);
 });
 
-socket.on('play:again:request', (data) => {
+socketOn('play:again:request', (data) => {
     hideOverlay(overlayGameEnd);
     showOverlay(overlayPlayAgain);
     labelPlayAgain.innerText = `${data.player} want's to play again`;
 });
 
-socket.on('play:again:accepted', (data) => {
+socketOn('play:again:accepted', (data) => {
     let playerSymbol = getPlayerSymbol();
     let playerTurn = getPlayerTurn();
 
@@ -288,6 +288,15 @@ socket.on('play:again:accepted', (data) => {
     }
 });
 
-socket.on('play:again:declined', (data) => {
+socketOn('play:again:declined', (data) => {
     labelGameMsg.innerText = `${data.player} declined your play again request`;
+});
+
+socketOn('player:disconnected', () => {
+    let oppositePlayer = (getPlayerSymbol() === 'X') ? getPlayerLabel('two') : getPlayerLabel('one');
+
+    setGameStateLabel('FINISHED');
+    hideOverlay(overlayGameMsg);
+    showOverlay(overlayGameMsg);
+    labelGameMsg.innerText = `player ${oppositePlayer} disconnected`;
 });
