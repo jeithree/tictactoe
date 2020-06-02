@@ -21,6 +21,7 @@ btnJCancel.addEventListener('click', (evt) => {
 btnCreateConfirm.addEventListener('click', (evt) => {
     evt.preventDefault();
 
+    setPlayerTurn('first');
     setPlayer(createUsernameInput.value);
     let player = getPlayer();
 
@@ -51,6 +52,7 @@ btnCreateConfirm.addEventListener('click', (evt) => {
 btnJoinConfirm.addEventListener('click', (evt) => {
     evt.preventDefault();
 
+    setPlayerTurn('second');
     setPlayer(joinUsernameInput.value);
     let player = getPlayer();
 
@@ -74,7 +76,11 @@ btnJoinConfirm.addEventListener('click', (evt) => {
     setPlayerSymbolLabel(symbol);
 
     socketEmit('join:game', {pin: pin});
-    socketEmit('join:request', {pin: pin, player: player, symbol: symbol});
+    socketEmit('join:request', {
+        pin: pin,
+        player: player,
+        symbol: symbol
+    });
 });
 
 btnAccept.addEventListener('click', (evt) => {
@@ -82,7 +88,11 @@ btnAccept.addEventListener('click', (evt) => {
 
     hideOverlay(overlayPlayerJoined);
     setGameStateLabel('YOUR TURN');
-    socketEmit('join:request:accepted', {pin: getPin(), player: getPlayer(), symbol: getPlayerSymbol()});
+    socketEmit('join:request:accepted', {
+        pin: getPin(),
+        player: getPlayer(),
+        symbol: getPlayerSymbol()
+    });
 });
 
 btnExit.addEventListener('click', (evt) => {
@@ -93,16 +103,101 @@ btnExit.addEventListener('click', (evt) => {
     showOverlay(startScene);
 });
 
+cells.forEach((cell) => {
+    cell.addEventListener('click', (evt) => {
+        evt.preventDefault();
+
+        if (cell.classList.contains('x') || cell.classList.contains('circle')) { return; }
+
+        let playerSymbol = getPlayerSymbol();
+        let currentClass = (playerSymbol === 'X') ? 'x' : 'circle';
+        let oppositePlayer = (playerSymbol === 'X') ? getPlayerLabel('two') : getPlayerLabel('one');
+        let activePlayer = (playerSymbol === 'X') ? getPlayerLabel('one') : getPlayerLabel('two');
+
+        cell.innerText = playerSymbol;
+        cell.classList.add(currentClass);
+
+        socket.emit('player:movement', {
+            pin: getPin(),
+            player: getPlayer(),
+            symbol: getPlayerSymbol(),
+            position: cell.dataset.position
+        });
+
+        setGameStateLabel('WAITING');
+        showOverlay(overlayGameMsg);
+        labelGameMsg.innerText = `waiting for ${oppositePlayer}'s movement ..`;
+
+        if (checkWin(currentClass)) {
+            setGameStateLabel('FINISHED');
+            hideOverlay(overlayGameMsg);
+            showOverlay(overlayGameEnd);
+            labelGameEnd.innerText = activePlayer;
+        } else if (checkDraw()) {
+            setGameStateLabel('FINISHED');
+            hideOverlay(overlayGameMsg);
+            showOverlay(overlayGameEnd);
+            labelGameEnd.innerText = `It's a draw`;
+        }
+    });
+});
+
+btnRestart.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    hideOverlay(overlayGameEnd);
+
+    cells.forEach((cell) => {
+        cell.classList.remove('x', 'circle', 'green');
+        cell.innerText = '';
+    });
+
+    socket.emit('play:again', {
+        pin: getPin(),
+        player: getPlayer(),
+        symbol: getPlayerSymbol(),
+    });
+
+    let oppositePlayer = (getPlayerSymbol() === 'X') ? getPlayerLabel('two') : getPlayerLabel('one');
+
+    showOverlay(overlayGameMsg);
+    labelGameMsg.innerText = `waiting for ${oppositePlayer} to accept the play again request ..`;
+});
+
 socket.on('join:request', (data) => {
     setPlayerLabel('two', data.player);
     hideOverlay(overlayPin);
     showOverlay(overlayPlayerJoined);
     labelPlayerJoined.innerText = `${data.player} has joined`;
-    console.log(data);
+    //console.log(data);
 });
 
 socket.on('join:request:accepted', (data) => {
+    setGameStateLabel('YOU JOINED');
     setPlayerLabel('one', data.player);
     labelGameMsg.innerText = `waiting for ${data.player}'s movement ..`;
-    console.log(data);
+    //console.log(data);
+});
+
+socket.on('player:movement', (data) => {
+    setGameStateLabel('YOUR TURN');
+    hideOverlay(overlayGameMsg);
+
+    let cellToDrawOn = document.querySelectorAll(`[data-position="${data.position}"]`);
+    let currentClass = (data.symbol === 'X') ? 'x' : 'circle';
+
+    cellToDrawOn[0].classList.add(currentClass);
+    cellToDrawOn[0].innerText = data.symbol;
+
+    if (checkWin(currentClass)) {
+        setGameStateLabel('FINISHED');
+        hideOverlay(overlayGameMsg);
+        showOverlay(overlayGameEnd);
+        labelGameEnd.innerText = data.player;
+    } else if (checkDraw()) {
+        setGameStateLabel('FINISHED');
+        hideOverlay(overlayGameMsg);
+        showOverlay(overlayGameEnd);
+        labelGameEnd.innerText = `It's a draw`;
+    }
+    console.log(data.symbol, data.position);
 });

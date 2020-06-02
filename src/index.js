@@ -41,11 +41,28 @@ io.on('connection', (socket) => {
     });
 
     socket.on('join:request', (data) => {
-        socket.to(data.pin).broadcast.emit('join:request', {pin: data.pin, player: data.player, symbol: data.symbol});
+        socket.to(data.pin).broadcast.emit('join:request', {
+            pin: data.pin,
+            player: data.player,
+            symbol: data.symbol
+        });
     });
 
     socket.on('join:request:accepted', (data) => {
-        socket.to(data.pin).broadcast.emit('join:request:accepted', {pin: data.pin, player: data.player, symbol: data.symbol});
+        socket.to(data.pin).broadcast.emit('join:request:accepted', {
+            pin: data.pin,
+            player: data.player,
+            symbol: data.symbol
+        });
+    });
+
+    socket.on('player:movement', (data) => {
+        socket.to(data.pin).broadcast.emit('player:movement', {
+            pin: data.pin,
+            player: data.player,
+            symbol: data.symbol,
+            position: data.position
+        });
     });
 
     socket.on('disconnect', () => {

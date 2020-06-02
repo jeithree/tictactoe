@@ -33,7 +33,7 @@ const labelPlayerJoined = document.querySelector('.player-joined-container p');
 const btnAccept = document.querySelector('.player-joined-container .accept');
 
 const overlayGameEnd = document.querySelector('.overlay-game-end');
-const labelGameEnd = document.querySelector('.game-end-container p');
+const labelGameEnd = document.querySelector('.game-end-container span');
 const btnRestart = document.querySelector('.game-end-container .restart');
 
 const gameContainer = document.querySelector('.game-container');
@@ -72,6 +72,14 @@ function validateInput(input) {
     return (input === '') ? false : true;
 }
 
+function setPlayerTurn(turn) {
+    sessionStorage.setItem('turn', turn);
+}
+
+function getPlayerTurn() {
+    return sessionStorage.getItem('turn');
+}
+
 function setPlayer(name) {
     sessionStorage.setItem('player', name);
 }
@@ -83,6 +91,11 @@ function getPlayer() {
 function setPlayerLabel(number, name) {
     let label = (number === 'one') ? labelPlayerOne : labelPlayerTwo;
     label.innerText = name;
+}
+
+function getPlayerLabel(number) {
+    let label = (number === 'one') ? labelPlayerOne : labelPlayerTwo;
+    return label.innerText;
 }
 
 function setPin(pin) {
@@ -119,4 +132,21 @@ function socketEmit(evt, args) {
 
 function socketOn(evt, cb) {
     socket.on(evt, cb);
+}
+
+function checkWin(currentClass) {
+    return winningCombinations.some((combination) => {
+        let result = combination.every((value) => { return cells[value].classList.contains(currentClass); });
+        if (result) {
+            combination.forEach((value) => { cells[value].classList.add('green'); })
+            return result;
+        }
+        return result;
+    });
+}
+
+function checkDraw() {
+    return [...cells].every((cell) => {
+        return cell.classList.contains('x') || cell.classList.contains('circle');
+    });
 }
