@@ -66,77 +66,7 @@ body {
 /* 2 color: #2c3e50 */
 /* 3 color: #2ecc71 */
 
-.start-scene {
-	max-width: 300px;
-	width: 100%;
-	margin: 80px auto;
-	display: none;
-	visibility: hidden;
-}
-.game-title {
-	font-size: 3rem;
-	line-height: 3rem;
-	font-weight: bold;
-	margin: 0 auto 30px auto;
-}
-.game-title span {
-	display: block;
-	padding-top: 15px;
-}
-.create-msg, .join-msg {
-	margin: 0 auto 5px auto;
-}
-.divisor {
-	display: block;
-	margin: 20px auto 15px auto;
-}
-.btn-create, .btn-join {
-	display: block;
-	text-decoration: none;
-	font-size: 1.4rem;
-	padding: 5px;
-	color: #F6F6F6;
-	width: 120px;
-	margin: 0 auto;
-	border-radius: 4px;
-}
-.btn-create {
-	background: #27ae60;;
-}
-.btn-join {
-	background: #3498db;
-}
-.btn-create:hover, .btn-create:active {
-	background: #155e34;
-}
-.btn-join:hover, .btn-join:active {
-	background: #1d6ea4;
-}
-.overlay-create, .overlay-join {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-    height: 100%;
-	background: rgb(71, 69, 84, 0.6);
-	display: none;
-	visibility: hidden;
-}
-.create-form, .join-form {
-	max-width: 300px;
-	width: 100%;
-	max-height: 250px;
-	height: 100%;
-	margin: 220px auto 0 auto;
-	background: #f6f6f6;
-	border-radius: 5px;
-	border: #8C8C8C solid 1px;
-}
-.username-msg {
-	padding-top: 55px;
-	margin: 0 auto 5px auto;
-}
-.username-create, .username-join, .pin-code {
+.input {
 	margin: 0 auto 20px auto;
 	text-align: center;
 	border-radius: 4px;
@@ -146,46 +76,97 @@ body {
 	font-size: 1.2rem;
 	display: block;
 }
-.form-btn-create, .form-create-btn-cancel, .form-join-btn-cancel, .form-btn-join {
+.btn {
+	display: inline-block;
 	text-decoration: none;
 	font-size: 1.4rem;
-	padding: 8px 12px;
+	line-height: 1.4rem;
+	padding: 12px 12px;
 	color: #F6F6F6;
-	width: 120px;
-	margin: 0 6px;
+	margin: 0 5px;
 	border-radius: 4px;
 }
-.form-btn-create {
-	background: #27ae60;;
-}
-.form-create-btn-cancel, .form-join-btn-cancel {
-	background: #e74c3c;
-}
-.form-btn-create:hover, .form-btn-create:active {
+.create, .restart, .accept { background: #27ae60; }
+.join {	background: #3498db; }
+.cancel, .exit, .decline { background: #e74c3c; }
+.create:hover, .create:active,
+.restart:hover, .restart:active,
+.accept:hover, .accept:active {
 	background: #155e34;
 }
-.form-create-btn-cancel:hover, .form-create-btn-cancel:active,
-.form-join-btn-cancel:hover, .form-join-btn-cancel:active {
+.join:hover, .join:active {	background: #1d6ea4; }
+.cancel:hover, .cancel:active,
+.exit:hover, .exit:active,
+.decline:hover, .decline:active {
 	background: #ac2315;
 }
-.join-form .username-msg {
-	padding-top: 20px;
+.start-scene {
+	max-width: 300px;
+	width: 100%;
+	margin: 80px auto;
+	display: none;
+	visibility: hidden;
 }
-.pin-msg {
-	padding-top: 10px;
+.start-container .title {
+	font-size: 3rem;
+	line-height: 3rem;
+	font-weight: bold;
+	margin: 0 auto 30px auto;
+}
+.start-container .title span {
+	display: block;
+	padding-top: 15px;
+}
+.start-container p {
 	margin: 0 auto 5px auto;
 }
-.username-join, .pin-code {
-	margin-bottom: 5px;
+.start-container .divisor {
+	display: block;
+	margin: 20px auto 15px auto;
 }
-.pin-code {
+.start-container .create, .start-container .join {
+	width: 120px;
+	margin: 0 auto;
+}
+.overlay-start-scene {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+    height: 100%;
+	background: rgb(71, 69, 84, 0.6);
+	display: none;
+	visibility: hidden;
+}
+.create-container, .join-container {
+	max-width: 300px;
+	width: 100%;
+	max-height: 250px;
+	height: 100%;
+	margin: 220px auto 0 auto;
+	background: #f6f6f6;
+	border-radius: 5px;
+	border: #8C8C8C solid 1px;
+}
+.create-container p {
+	padding-top: 55px;
+	margin: 0 auto 5px auto;
+}
+.join-container {
+	padding-top: 20px;
+}
+.join-container p {
+	padding-bottom: 5px;
+}
+.join-container .username {
+	margin-bottom: 10px;
+}
+.join-container .pin {
 	margin-bottom: 20px;
 }
-.form-btn-join {
-	background: #3498db;
-}
-.form-btn-join:hover, .form-btn-join:active {
-	background: #1d6ea4;
+.join-container .join, .join-container .cancel {
+	padding: 12px 16px;
+	margin: 0 10px;
 }
 .game-scene {
 	max-width: 300px;
@@ -194,7 +175,83 @@ body {
 	display: none;
 	visibility: hidden;
 }
-.container {
+.game-state {
+	font-size: 2.5rem;
+	font-weight: bold;
+	line-height: 2.5rem;
+	margin: 0 auto 20px auto;
+}
+.players {
+	margin: 0 auto 20px auto;
+}
+.players span {	text-transform: capitalize; }
+.player-symbol {
+	margin: 0 auto 20px auto;
+}
+.symbol {
+	font-size: 1.5rem;
+	line-height: 1.5rem;
+	font-weight: bold;
+}
+.exit {
+	width: 120px;
+}
+.overlay-game-scene {
+	position: absolute;
+	max-width: 300px;
+	width: 100%;
+	max-height: 300px;
+	height: 100%;
+	background: rgb(71, 69, 84, 0.3);
+	display: none;
+	visibility: hidden;
+}
+.game-end-container, .pin-container, .game-msg-container, .player-joined-container, .play-again-container {
+	max-width: 200px;
+	width: 100%;
+	background: #F6F6F6;
+	border-radius: 5px;
+	border: #8C8C8C solid 1px;
+	padding: 20px 0;
+	margin: 86px auto 0 auto;
+}
+.pin-container p {
+	padding-bottom: 8px;
+}
+.pin-text {
+	font-size: 2rem;
+	font-weight: bold;
+}
+.game-msg-container {
+	margin-top: 105px;
+	padding: 20px 5px;
+}
+.player-joined-container {
+	padding: 15px;
+}
+.player-joined-container .accept{
+	margin-top: 10px;
+}
+.play-again-container {
+	padding: 20px 10px;
+    max-width: 240px;
+}
+.play-again-container p {
+	padding: 0 0 10px 0;
+    max-width: 240px;
+}
+.play-again-container .accept {
+	display: inline;
+}
+.game-end-container p {
+	font-size: 1.5rem;
+	line-height: 1.5rem;
+	font-weight: bold;
+	display: block;
+	margin: 0  0 20px 0;
+}
+.game-end-container span { text-transform: capitalize; }
+.game-container {
     max-width: 300px;
     width: 100%;
     display: grid;
@@ -203,7 +260,7 @@ body {
     grid-template-rows: repeat(3, 1fr);
     margin: 0 auto 20px auto;
 }
-.square {
+.cell {
     height: 100px;
     background: #F6F6F6;
     border: #eeeeee solid 2px;
@@ -217,86 +274,7 @@ body {
 .green {
     background: #C0DFE4;
 }
-.game-state {
-	font-size: 2.5rem;
-	font-weight: bold;
-	line-height: 2.5rem;
-	margin: 0 auto 20px auto;
-}
-.players {
-	margin: 0 auto 20px auto;
-}
-.player-symbol {
-	margin: 0 auto 20px auto;
-}
-.symbol {
-	font-size: 1.5rem;
-	line-height: 1.5rem;
-	font-weight: bold;
-}
-.overlay-game-msg, .overlay-game-end, .overlay-game-pin {
-	position: absolute;
-	max-width: 300px;
-	width: 100%;
-	max-height: 300px;
-	height: 100%;
-	background: rgb(71, 69, 84, 0.3);
-	display: none;
-	visibility: hidden;
-}
-.game-end-msg, .game-pin-msg, .game-msg {
-	max-width: 200px;
-	width: 100%;
-	background: #F6F6F6;
-	border-radius: 5px;
-	border: #8C8C8C solid 1px;
-	padding: 20px 0;
-	margin: 86px auto 0 auto;
-}
-.game-msg {
-	margin-top: 105px;
-	padding: 20px 5px;
-}
-.msg-pin {
-	padding-bottom: 8px;
-}
-.pin {
-	font-size: 2rem;
-	font-weight: bold;
-}
-.winner {
-	font-size: 1.5rem;
-	line-height: 1.5rem;
-	font-weight: bold;
-	display: block;
-	margin: 0  0 20px 0;
-}
-.restart, .exit {
-	display: block;
-	text-decoration: none;
-	padding: 5px;
-	color: #F6F6F6;
-	width: 100px;
-	margin: 0 auto 10px auto;
-	border-radius: 4px;
-}
-.restart {
-	background: #27ae60;
-}
-.exit {
-	background: #e74c3c;
-}
-.restart:hover, .restart:active {
-	background: #155e34;
-}
-.exit:hover, .exit:active {
-	background: #ac2315;
-}
-.overlay-show {
-	display: inherit;
-	visibility: visible;
-}
-.scene-show {
+.show {
 	display: inherit;
 	visibility: visible;
 }

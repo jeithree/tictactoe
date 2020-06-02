@@ -9,67 +9,84 @@
     <link rel="stylesheet" href="css/style.css">
 
     <script defer src="socket.io/socket.io.js"></script>
-    <script defer src="js/ui.js"></script>
+    <script defer src="js/common.js"></script>
     <script defer src="js/app.js"></script>
 </head>
 <body>
-    <div class="start-scene scene-show">
-        <div class="overlay-create">
-            <div class="create-form">
-                <p class="username-msg">Enter a name</p>
-                <input class="username-create" type="text" name="username-create">
-                <a href="#" class="form-btn-create">Create</a>
-                <a href="#" class="form-create-btn-cancel">Cancel</a>
+    <div class="start-scene show">
+        <div class="overlay-start-scene overlay-create">
+            <div class="create-container">
+                <p>Enter a name</p>
+                <input class="input username" type="text" name="username">
+                <a href="#" class="btn create">Create</a>
+                <a href="#" class="btn cancel">Cancel</a>
             </div>
         </div>
-        <div class="overlay-join">
-            <div class="join-form">
-                <p class="username-msg">Enter a name</p>
-                <input class="username-join" type="text" name="username-join">
-                <p class="pin-msg">Enter pin</p>
-                <input class="pin-code" type="text" name="pin-code" placeholder="########">
-                <a href="#" class="form-btn-join">Join</a>
-                <a href="#" class="form-join-btn-cancel">Cancel</a>
+        <div class="overlay-start-scene overlay-join">
+            <div class="join-container">
+                <p>Enter a name</p>
+                <input class="input username" type="text" name="username">
+                <p>Enter pin</p>
+                <input class="input pin" type="text" name="pin" placeholder="########">
+                <a href="#" class="btn join">Join</a>
+                <a href="#" class="btn cancel">Cancel</a>
             </div>
         </div>
-        <h1 class="game-title">Simple <span>Tic Tac Toe</span></h1>
-        <p class="create-msg">Create a game</p>
-        <a href="#" class="btn-create">Create</a>
-        <span class="divisor">or</span>
-        <p class="join-msg">Join a game</p>
-        <a href="#" class="btn-join">Join</a>
+        <div class="start-container">
+            <h1 class="title">Simple <span>Tic Tac Toe</span></h1>
+            <p>Create a game</p>
+            <a href="#" class="btn create">Create</a>
+            <span class="divisor">or</span>
+            <p>Join a game</p>
+            <a href="#" class="btn join">Join</a>
+        </div>
     </div>
     <div class="game-scene">
         <p class="game-state"></p>
-        <p class="players"><span class="player-one"></span> vs <span class="player-two"></span></p>
-        <div class="overlay-game-pin">
-            <div class="game-pin-msg">
-                <p class="msg-pin">This is your PIN</p>
-                <p class="pin"></p>
+        <p class="players"><span class="player-one">...</span> vs <span class="player-two">...</span></p>
+        <div class="overlay-game-scene overlay-pin">
+            <div class="pin-container">
+                <p>This is your PIN</p>
+                <p class="pin-text"></p>
             </div>
         </div>
-        <div class="overlay-game-msg">
-            <p class="game-msg"></p>
-        </div>
-        <div class="overlay-game-end">
-            <div class="game-end-msg">
-                <p class="winner"></p>
-                <a href="#" class="restart">Play again</a>
+        <div class="overlay-game-scene overlay-game-msg">
+            <div class="game-msg-container">
+                <p></p>
             </div>
         </div>
-        <div class="container">
-            <a class="square" data-position='0' href="#"></a>
-            <a class="square" data-position='1' href="#"></a>
-            <a class="square" data-position='2' href="#"></a>
-            <a class="square" data-position='3' href="#"></a>
-            <a class="square" data-position='4' href="#"></a>
-            <a class="square" data-position='5' href="#"></a>
-            <a class="square" data-position='6' href="#"></a>
-            <a class="square" data-position='7' href="#"></a>
-            <a class="square" data-position='8' href="#"></a>
+        <div class="overlay-game-scene overlay-player-joined">
+            <div class="player-joined-container">
+                <p></p>
+                <a href="#" class="btn accept">Accept</a>
+            </div>
         </div>
-        <p class="player-symbol">Your symbol is: <span class="symbol">O</span></p>
-        <a href="#" class="exit">Exit</a>
+        <div class="overlay-game-scene overlay-game-end">
+            <div class="game-end-container">
+                <p><span></span> won</p>
+                <a href="#" class="btn restart">Play again</a>
+            </div>
+        </div>
+        <div class="overlay-game-scene overlay-play-again">
+            <div class="play-again-container">
+                <p></p>
+                <a href="#" class="btn accept">Accept</a>
+                <a href="#" class="btn decline">Decline</a>
+            </div>
+        </div>
+        <div class="game-container">
+            <a class="cell" data-position='0' href="#"></a>
+            <a class="cell" data-position='1' href="#"></a>
+            <a class="cell" data-position='2' href="#"></a>
+            <a class="cell" data-position='3' href="#"></a>
+            <a class="cell" data-position='4' href="#"></a>
+            <a class="cell" data-position='5' href="#"></a>
+            <a class="cell" data-position='6' href="#"></a>
+            <a class="cell" data-position='7' href="#"></a>
+            <a class="cell" data-position='8' href="#"></a>
+        </div>
+        <p class="player-symbol">Your symbol is: <span class="symbol"></span></p>
+        <a href="#" class="btn exit">Exit</a>
     </div>
 </body>
 </html>
