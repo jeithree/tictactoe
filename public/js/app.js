@@ -98,6 +98,11 @@ btnAccept.addEventListener('click', (evt) => {
 btnExit.addEventListener('click', (evt) => {
     evt.preventDefault();
 
+    socketEmit('player:disconnected', {});
+
+    clearCells();
+
+    hideOverlay(overlayGameMsg);
     hideOverlay(overlayGameEnd);
     hideOverlay(gameScene);
     showOverlay(startScene);
@@ -181,10 +186,7 @@ btnPlayAgainAccept.addEventListener('click', (evt) => {
         symbol: getPlayerSymbol(),
     });
 
-    cells.forEach((cell) => {
-        cell.classList.remove('x', 'circle', 'green');
-        cell.innerText = '';
-    });
+    clearCells();
 
     setPlayerSymbolLabel(playerNewSymbol);
     hideOverlay(overlayPlayAgain);
@@ -271,10 +273,7 @@ socketOn('play:again:accepted', (data) => {
     setPlayerLabel(PlayerNewNumber, getPlayer());
     setPlayerLabel(PlayerOldNumber, data.player);
 
-    cells.forEach((cell) => {
-        cell.classList.remove('x', 'circle', 'green');
-        cell.innerText = '';
-    });
+    clearCells();
 
     setPlayerSymbolLabel(playerNewSymbol);
     hideOverlay(overlayGameMsg);

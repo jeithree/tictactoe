@@ -139,6 +139,13 @@ function socketOn(evt, cb) {
     socket.on(evt, cb);
 }
 
+function clearCells() {
+    cells.forEach((cell) => {
+        cell.classList.remove('x', 'circle', 'green');
+        cell.innerText = '';
+    });
+}
+
 function checkWin(currentClass) {
     return winningCombinations.some((combination) => {
         let result = combination.every((value) => { return cells[value].classList.contains(currentClass); });
