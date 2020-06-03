@@ -23,11 +23,11 @@ btnCreateConfirm.addEventListener('click', (evt) => {
 
     hideOverlay(overlayGameMsg);
 
+    if (!validateInput(createUsernameInput)) { return; }
+
     setPlayerTurn('first');
     setPlayer(createUsernameInput.value);
     let player = getPlayer();
-
-    if (!validateInput(player)) { return; }
 
     hideOverlay(overlayCreate);
     hideOverlay(startScene);
@@ -56,15 +56,15 @@ btnJoinConfirm.addEventListener('click', (evt) => {
 
     hideOverlay(overlayGameMsg);
 
+    if (!validateInput(joinUsernameInput)) { return; }
+    if (!validateInput(joinPinInput)) { return; }
+
     setPlayerTurn('second');
     setPlayer(joinUsernameInput.value);
     let player = getPlayer();
 
     setPin(joinPinInput.value);
     let pin = getPin();
-
-    if (!validateInput(player)) { return; }
-    if (!validateInput(pin)) { return; }
 
     hideOverlay(overlayJoin);
     hideOverlay(startScene);

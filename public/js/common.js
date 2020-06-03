@@ -78,7 +78,11 @@ function hideOverlay(element) {
 }
 
 function validateInput(input) {
-    return (input === '') ? false : true;
+    if (input.validity.valueMissing) {
+        console.log(input.validationMessage);
+        return false;
+    }
+    return true;
 }
 
 function setPlayerTurn(turn) {

@@ -17,7 +17,7 @@
         <div class="overlay-start-scene overlay-create">
             <div class="create-container">
                 <p>Enter a name</p>
-                <input class="input username" type="text" name="username">
+                <input class="input username" type="text" name="username" maxlength="14" required>
                 <a href="#" class="btn create">Create</a>
                 <a href="#" class="btn cancel">Cancel</a>
             </div>
@@ -25,9 +25,9 @@
         <div class="overlay-start-scene overlay-join">
             <div class="join-container">
                 <p>Enter a name</p>
-                <input class="input username" type="text" name="username">
+                <input class="input username" type="text" name="username" maxlength="14" required>
                 <p>Enter pin</p>
-                <input class="input pin" type="text" name="pin" placeholder="########">
+                <input class="input pin" type="text" name="pin" placeholder="########"  minlength="8" maxlength="8" required>
                 <a href="#" class="btn join">Join</a>
                 <a href="#" class="btn cancel">Cancel</a>
             </div>
