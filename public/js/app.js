@@ -21,6 +21,8 @@ btnJCancel.addEventListener('click', (evt) => {
 btnCreateConfirm.addEventListener('click', (evt) => {
     evt.preventDefault();
 
+    hideOverlay(overlayGameMsg);
+
     setPlayerTurn('first');
     setPlayer(createUsernameInput.value);
     let player = getPlayer();
@@ -51,6 +53,8 @@ btnCreateConfirm.addEventListener('click', (evt) => {
 
 btnJoinConfirm.addEventListener('click', (evt) => {
     evt.preventDefault();
+
+    hideOverlay(overlayGameMsg);
 
     setPlayerTurn('second');
     setPlayer(joinUsernameInput.value);
@@ -100,6 +104,8 @@ btnExit.addEventListener('click', (evt) => {
 
     socketEmit('player:disconnected', {});
 
+    setPlayerLabel('one', '');
+    setPlayerLabel('two', '');
     clearCells();
 
     hideOverlay(overlayGameMsg);

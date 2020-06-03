@@ -65,6 +65,10 @@ window.addEventListener('load', () => {
     overlayJoin.style.height = `${windowHeight}px`;
 });
 
+function capitalizeString(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 function showOverlay(element) {
     element.classList.add('show');
 }
@@ -86,7 +90,8 @@ function getPlayerTurn() {
 }
 
 function setPlayer(name) {
-    sessionStorage.setItem('player', name);
+    let capitalizedName = capitalizeString(name)
+    sessionStorage.setItem('player', capitalizedName);
 }
 
 function getPlayer() {
