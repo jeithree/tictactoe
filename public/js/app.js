@@ -21,11 +21,13 @@ btnJCancel.addEventListener('click', (evt) => {
 btnCreateConfirm.addEventListener('click', (evt) => {
     evt.preventDefault();
 
+    hideOverlay(overlayGameMsg);
+
+    if (!validateInput(createUsernameInput)) { return; }
+
     setPlayerTurn('first');
     setPlayer(createUsernameInput.value);
     let player = getPlayer();
-
-    if (!validateInput(player)) { return; }
 
     hideOverlay(overlayCreate);
     hideOverlay(startScene);
@@ -52,15 +54,17 @@ btnCreateConfirm.addEventListener('click', (evt) => {
 btnJoinConfirm.addEventListener('click', (evt) => {
     evt.preventDefault();
 
+    hideOverlay(overlayGameMsg);
+
+    if (!validateInput(joinUsernameInput)) { return; }
+    if (!validateInput(joinPinInput)) { return; }
+
     setPlayerTurn('second');
     setPlayer(joinUsernameInput.value);
     let player = getPlayer();
 
     setPin(joinPinInput.value);
     let pin = getPin();
-
-    if (!validateInput(player)) { return; }
-    if (!validateInput(pin)) { return; }
 
     hideOverlay(overlayJoin);
     hideOverlay(startScene);
@@ -98,6 +102,13 @@ btnAccept.addEventListener('click', (evt) => {
 btnExit.addEventListener('click', (evt) => {
     evt.preventDefault();
 
+    socketEmit('player:disconnected', {});
+
+    setPlayerLabel('one', '');
+    setPlayerLabel('two', '');
+    clearCells();
+
+    hideOverlay(overlayGameMsg);
     hideOverlay(overlayGameEnd);
     hideOverlay(gameScene);
     showOverlay(startScene);
@@ -132,7 +143,7 @@ cells.forEach((cell) => {
             setGameStateLabel('FINISHED');
             hideOverlay(overlayGameMsg);
             showOverlay(overlayGameEnd);
-            labelGameEnd.innerText = activePlayer;
+            labelGameEnd.innerText = `${activePlayer} won`;
         } else if (checkDraw()) {
             setGameStateLabel('FINISHED');
             hideOverlay(overlayGameMsg);
@@ -181,10 +192,7 @@ btnPlayAgainAccept.addEventListener('click', (evt) => {
         symbol: getPlayerSymbol(),
     });
 
-    cells.forEach((cell) => {
-        cell.classList.remove('x', 'circle', 'green');
-        cell.innerText = '';
-    });
+    clearCells();
 
     setPlayerSymbolLabel(playerNewSymbol);
     hideOverlay(overlayPlayAgain);
@@ -241,7 +249,7 @@ socketOn('player:movement', (data) => {
         setGameStateLabel('FINISHED');
         hideOverlay(overlayGameMsg);
         showOverlay(overlayGameEnd);
-        labelGameEnd.innerText = data.player;
+        labelGameEnd.innerText = `${data.player} won`;
     } else if (checkDraw()) {
         setGameStateLabel('FINISHED');
         hideOverlay(overlayGameMsg);
@@ -254,7 +262,7 @@ socketOn('player:movement', (data) => {
 socketOn('play:again:request', (data) => {
     hideOverlay(overlayGameEnd);
     showOverlay(overlayPlayAgain);
-    labelPlayAgain.innerText = `${data.player} want's to play again`;
+    labelPlayAgain.innerText = `${data.player} wants to play again`;
 });
 
 socketOn('play:again:accepted', (data) => {
@@ -271,10 +279,7 @@ socketOn('play:again:accepted', (data) => {
     setPlayerLabel(PlayerNewNumber, getPlayer());
     setPlayerLabel(PlayerOldNumber, data.player);
 
-    cells.forEach((cell) => {
-        cell.classList.remove('x', 'circle', 'green');
-        cell.innerText = '';
-    });
+    clearCells();
 
     setPlayerSymbolLabel(playerNewSymbol);
     hideOverlay(overlayGameMsg);

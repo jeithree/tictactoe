@@ -184,7 +184,6 @@ body {
 .players {
 	margin: 0 auto 20px auto;
 }
-.players span {	text-transform: capitalize; }
 .player-symbol {
 	margin: 0 auto 20px auto;
 }
@@ -250,7 +249,6 @@ body {
 	display: block;
 	margin: 0  0 20px 0;
 }
-.game-end-container span { text-transform: capitalize; }
 .game-container {
     max-width: 300px;
     width: 100%;
