@@ -11,7 +11,7 @@ const app = express();
 
 // Settings
 app.enable('trust proxy');
-app.set('port', 5000);
+app.set('port', process.env.PORT || 5000);
 
 // Middlewares
 app.use(express.json());
