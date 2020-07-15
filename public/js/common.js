@@ -38,7 +38,7 @@ const btnPlayAgainAccept = document.querySelector('.play-again-container .accept
 const btnPlayAgainDecline = document.querySelector('.play-again-container .decline');
 
 const overlayGameEnd = document.querySelector('.overlay-game-end');
-const labelGameEnd = document.querySelector('.game-end-container span');
+const labelGameEnd = document.querySelector('.game-end-container p');
 const btnRestart = document.querySelector('.game-end-container .restart');
 
 const gameContainer = document.querySelector('.game-container');
@@ -65,6 +65,10 @@ window.addEventListener('load', () => {
     overlayJoin.style.height = `${windowHeight}px`;
 });
 
+function capitalizeString(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 function showOverlay(element) {
     element.classList.add('show');
 }
@@ -74,7 +78,11 @@ function hideOverlay(element) {
 }
 
 function validateInput(input) {
-    return (input === '') ? false : true;
+    if (input.validity.valueMissing) {
+        console.log(input.validationMessage);
+        return false;
+    }
+    return true;
 }
 
 function setPlayerTurn(turn) {
@@ -86,7 +94,8 @@ function getPlayerTurn() {
 }
 
 function setPlayer(name) {
-    sessionStorage.setItem('player', name);
+    let capitalizedName = capitalizeString(name)
+    sessionStorage.setItem('player', capitalizedName);
 }
 
 function getPlayer() {
@@ -137,6 +146,13 @@ function socketEmit(evt, args) {
 
 function socketOn(evt, cb) {
     socket.on(evt, cb);
+}
+
+function clearCells() {
+    cells.forEach((cell) => {
+        cell.classList.remove('x', 'circle', 'green');
+        cell.innerText = '';
+    });
 }
 
 function checkWin(currentClass) {
