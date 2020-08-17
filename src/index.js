@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // Routes middlewares
-app.use('/games/tictactoe', require('./routes/index'));
+app.use(require('./routes/index'));
 
 // Server
 const server = app.listen(app.get('port'), () => {
