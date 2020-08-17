@@ -14,7 +14,6 @@ app.enable('trust proxy');
 app.set('port', process.env.PORT || 5000);
 
 // Middlewares
-app.use(helmet());
 app.use(express.json());
 
 // Static files
