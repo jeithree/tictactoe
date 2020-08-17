@@ -63,7 +63,7 @@ btnJoinConfirm.addEventListener('click', (evt) => {
     setPlayer(joinUsernameInput.value);
     let player = getPlayer();
 
-    setPin(joinPinInput.value);
+    setPin(joinPinInput.value.toUpperCase());
     let pin = getPin();
 
     hideOverlay(overlayJoin);
