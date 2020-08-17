@@ -39,7 +39,8 @@ io.on('connection', (socket) => {
     });
 
     socket.on('join:game', async (data) => {
-        socket.join(data.pin);
+        let pin = data.pin
+        socket.join(pin.toUpperCase());
         const connection = new Connection({
             connection: socket.id,
             room: data.pin,
