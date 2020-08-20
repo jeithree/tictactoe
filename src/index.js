@@ -17,11 +17,8 @@ app.set('port', process.env.PORT || 5000);
 app.use((req, res, next) => {
     // Don't allow user to hit Heroku now that we have a domain
     const host = req.get('Host');
-    const originalUrl = req.originalUrl
-    if (host === 'jeitictactoe.herokuapp.com' && originalUrl !== '') {
-        return res.redirect(301, 'https://jeithemes.com' + originalUrl);
-    }
-    if (host === 'jeitictactoe.herokuapp.com' && originalUrl === '') {
+    //const originalUrl = req.originalUrl
+    if (host === 'jeitictactoe.herokuapp.com') {
         return res.redirect(301, 'https://jeithemes.com');
     }
     return next();
