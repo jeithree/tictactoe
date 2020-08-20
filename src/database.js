@@ -1,14 +1,16 @@
 const mongoose = require('mongoose');
 
-const dbUrlConnection = process.env.DB_URL_CONNECTION;
+const DB_CONNECTION_STRING = process.env.DB_CONNECTION_STRING;
 
-mongoose.connect(dbUrlConnection, { user: process.env.DB_USER, pass: process.env.DB_PASSWORD, useNewUrlParser: true, useUnifiedTopology: true });
-const db = mongoose.connection;
-
-db.once('open', () => {
-    console.log('Database connected:', dbUrlConnection);
+mongoose.connect(DB_CONNECTION_STRING, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 });
+const connection = mongoose.connection;
 
-db.on('error', (err) => {
+connection.once('open', () => {
+    console.log('Database connected:', DB_CONNECTION_STRING);
+});
+connection.on('error', (err) => {
     console.error('connection error:', err);
 });
