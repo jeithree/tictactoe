@@ -19,7 +19,7 @@ app.use((req, res, next) => {
     const host = req.get('Host');
     //const originalUrl = req.originalUrl
     if (host === 'jeitictactoe.herokuapp.com') {
-        return res.redirect(301, 'https://jeithemes.com');
+        return res.redirect(301, 'https://jeithemes.com/');
     }
     return next();
 });
